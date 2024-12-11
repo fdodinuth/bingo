@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo Ticket - {{ player_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>{{ player_name }}'s Bingo Ticket</h1>
+        <div class="ticket">
+            {% for number, is_called in highlighted_ticket %}
+                <div class="ticket-number {% if is_called %} green {% endif %}"
+                     data-number="{{ number }}"
+                     onclick="checkNumber('{{ player_name }}', {{ number }})"
+                     {% if is_called %} style="cursor: not-allowed;" title="This number is already called" {% endif %}>
+                    {{ number }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        // This function will check periodically for any called numbers and update the player's ticket
+        function checkForCalledNumbers() {
+            fetch('/check_called_numbers', {
+                method: 'GET'
+            })
+            .then(response => response.json())
+            .then(data => {
+                const calledNumbers = data.called_numbers;
+                calledNumbers.forEach(number => {
+                    // Highlight the number on the player's ticket if they have it
+                    const numberDiv = document.querySelector(`.ticket-number[data-number="${number}"]`);
+                    if (numberDiv) {
+                        numberDiv.classList.add('green'); // Add the green class to highlight the number
+                    }
+                });
+            });
+        }
+
+        // Set an interval to check for called numbers every 5 seconds
+        setInterval(checkForCalledNumbers, 5000);
+    </script>
+</body>
+</html>

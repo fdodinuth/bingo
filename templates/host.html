@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo Host</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Bingo Game - Host Page</h1>
+
+        <!-- Display the currently called number with animation -->
+        <div class="random-number-display">
+            <p id="random-number">Press the button to pick a number</p>
+        </div>
+
+        <!-- Display Called Numbers in small boxes -->
+        <div class="numbers-list">
+            <h3>Called Numbers</h3>
+            <div id="called-numbers-container">
+                <!-- Dynamically updated called numbers will appear here -->
+            </div>
+        </div>
+
+        <!-- Players with the called number -->
+        <div class="players-list">
+            <h3>Players with Called Number</h3>
+            <ul id="players-with-number">
+                <!-- List of players who have the called number -->
+            </ul>
+        </div>
+
+        <!-- Button to pick a random number -->
+        <button onclick="pickRandomNumber()">Pick Random Number</button>
+    </div>
+</body>
+</html>
